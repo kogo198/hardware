@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Your Cart | Elite Hardware Kenya{% endblock %}
+
+{% block content %}
+<div class="page-header container">
+    <h1>Shopping <span class="text-gradient">Cart</span></h1>
+</div>
+
+<div class="container" style="padding-bottom: 5rem;">
+    {% if cart_items %}
+    <div class="products-wrapper" style="grid-template-columns: 1fr 350px;">
+        <div class="cart-left">
+            <div class="glass-card" style="overflow: hidden;">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <div class="cart-product">
+                                    <div class="cart-product-icon">{{ item.product.category.icon }}</div>
+                                    <div>
+                                        <p style="font-weight: 600;">{{ item.product.name }}</p>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">${{ item.product.price }} each</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span style="font-weight: 600;">{{ item.quantity }}</span>
+                            </td>
+                            <td>
+                                <span style="font-weight: 700; color: var(--primary);">${{ item.subtotal|floatformat:2 }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.product.id %}" style="color: #ef4444; text-decoration: none; font-size: 0.9rem;">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="cart-right">
+            <div class="glass-card cart-total-box">
+                <h3>Order Summary</h3>
+                <div style="margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+                    <div class="total-row">
+                        <span>Total</span>
+                        <span class="text-gradient">${{ total|floatformat:2 }}</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Shipping and taxes calculated at checkout.</p>
+                <a href="{% url 'checkout' %}" class="btn-primary large" style="text-align: center; margin-top: 1rem;">Proceed to Checkout</a>
+                <a href="{% url 'products' %}" style="text-align: center; color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="glass-card text-center" style="padding: 5rem;">
+        <div style="font-size: 4rem; margin-bottom: 2rem;">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p style="color: var(--text-muted); margin: 1.5rem 0 2.5rem;">Looks like you haven't added any tools to your cart yet.</p>
+        <a href="{% url 'products' %}" class="btn-primary large">Start Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

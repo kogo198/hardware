@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Our Services | Elite Hardware Kenya{% endblock %}
+
+{% block content %}
+<div class="page-header container text-center">
+    <h1>Professional <span class="text-gradient">Services</span></h1>
+    <p>We provide more than just tools. We provide solutions.</p>
+</div>
+
+<div class="container" style="padding-bottom: 5rem;">
+    <div class="features-grid">
+        <div class="feature-card glass-card">
+            <div class="icon-wrap">🔧</div>
+            <h3>Tool Repair</h3>
+            <p>Our expert technicians can fix almost any industrial tool. From power drills to hydraulic jacks, we ensure your equipment performs like new.</p>
+        </div>
+        <div class="feature-card glass-card">
+            <div class="icon-wrap">📐</div>
+            <h3>Consultation</h3>
+            <p>Unsure which tool is right for your project? Our engineering consultants provide free guidance on technical specifications and requirements.</p>
+        </div>
+        <div class="feature-card glass-card">
+            <div class="icon-wrap">🚛</div>
+            <h3>Site Delivery</h3>
+            <p>For heavy machinery and bulk orders, we provide specialized on-site delivery and initial setup services anywhere in Kenya.</p>
+        </div>
+    </div>
+
+    <div class="glass-card" style="margin-top: 4rem; padding: 4rem; text-align: center;">
+        <h2>Ready to get started?</h2>
+        <p style="margin: 1.5rem 0 2.5rem; color: var(--text-muted); max-width: 600px; margin-inline: auto;">
+            Contact our service department today for a custom quote or to schedule a maintenance appointment.
+        </p>
+        <a href="{% url 'contact' %}" class="btn-primary large">Contact Support</a>
+    </div>
+</div>
+{% endblock %}

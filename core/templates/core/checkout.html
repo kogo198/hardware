@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Checkout | Elite Hardware Kenya{% endblock %}
+
+{% block content %}
+<div class="page-header container">
+    <h1>Finalize <span class="text-gradient">Purchase</span></h1>
+</div>
+
+<div class="container" style="padding-bottom: 5rem;">
+    <div class="products-wrapper" style="grid-template-columns: 1fr 400px;">
+        <div class="checkout-form-section">
+            <div class="glass-card" style="padding: 3rem;">
+                <h3>Shipping Details</h3>
+                <form method="POST" id="checkout-form" style="margin-top: 2rem;">
+                    {% csrf_token %}
+                    <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" required value="{{ user.username }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label>Delivery Address</label>
+                        <input type="text" placeholder="123 Industrial Way, Nairobi" required>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+254..." required>
+                    </div>
+
+                    <h3 style="margin-top: 3rem;">Payment Method</h3>
+                    <div class="payment-options" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <label class="glass-card" style="flex: 1; padding: 1.5rem; cursor: pointer; display: flex; align-items: center; gap: 1rem;">
+                            <input type="radio" name="payment" checked>
+                            <span>M-Pesa</span>
+                        </label>
+                        <label class="glass-card" style="flex: 1; padding: 1.5rem; cursor: pointer; display: flex; align-items: center; gap: 1rem;">
+                            <input type="radio" name="payment">
+                            <span>Credit Card</span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary large" style="margin-top: 3rem; width: 100%;">Place Order</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="order-summary-sidebar">
+            <div class="glass-card" style="padding: 2.5rem;">
+                <h4>Your Order</h4>
+                <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    {% for item in cart_items %}
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                        <span>${{ item.subtotal|floatformat:2 }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+                    <div class="total-row" style="font-size: 1.5rem;">
+                        <span>Total</span>
+                        <span class="text-gradient">${{ total|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

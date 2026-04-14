@@ -1,0 +1,285 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Our Products | Elite Hardware Kenya{% endblock %}
+
+{% block content %}
+<!-- ========== PAGE HEADER ========== -->
+<div class="page-header container text-center">
+    <h1>All <span class="text-gradient">Products</span></h1>
+    <p>Premium quality tools for every task.</p>
+</div>
+
+<!-- ========== TOP SALES + SIDEBAR ========== -->
+{% if top_sales %}
+<section class="top-sales-section">
+    <div class="container">
+        <h2 class="section-title"><span class="title-underline">Top Sales</span></h2>
+        <div class="top-sales-layout">
+            <!-- Product Cards Grid -->
+            <div class="top-sales-grid">
+                {% for product in top_sales %}
+                <div class="top-sale-card glass-card" id="top-sale-{{ product.id }}">
+                    <div class="top-sale-image">
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <span class="top-sale-icon">{{ product.category.icon|default:"🛠️" }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="top-sale-info">
+                        <span class="top-sale-sku">{{ product.category.name|upper }}</span>
+                        <h3>{{ product.name }}</h3>
+                        <p class="top-sale-specs">{{ product.description|truncatewords:12 }}</p>
+                        <p class="top-sale-price">${{ product.price }}</p>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn-outline-dark">More Info</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar Featured Product -->
+            {% if sidebar_product %}
+            <div class="featured-sidebar" id="featured-sidebar-product">
+                <div class="featured-sidebar-inner">
+                    <div class="featured-sidebar-image">
+                        {% if sidebar_product.image_url %}
+                            <img src="{{ sidebar_product.image_url }}" alt="{{ sidebar_product.name }}">
+                        {% else %}
+                            <span style="font-size: 6rem;">{{ sidebar_product.category.icon|default:"🛠️" }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="featured-sidebar-sku">{{ sidebar_product.category.name|upper }}</span>
+                    <h3 class="featured-sidebar-name">{{ sidebar_product.name }}</h3>
+                    <ul class="featured-sidebar-specs">
+                        <li>Category: {{ sidebar_product.category.name }}</li>
+                        <li>Price: ${{ sidebar_product.price }}</li>
+                        <li>Stock: {{ sidebar_product.stock }} units</li>
+                    </ul>
+                    <a href="{% url 'product_detail' sidebar_product.slug %}" class="btn-primary-solid">More Info</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ========== NEW PRODUCT SPOTLIGHT ========== -->
+{% if new_product %}
+<section class="new-product-section">
+    <div class="container">
+        <h2 class="section-title"><span class="title-underline">New Product</span></h2>
+        <div class="new-product-banner glass-card">
+            <div class="new-product-image">
+                {% if new_product.image_url %}
+                    <img src="{{ new_product.image_url }}" alt="{{ new_product.name }}">
+                {% else %}
+                    <span style="font-size: 8rem;">{{ new_product.category.icon|default:"🛠️" }}</span>
+                {% endif %}
+            </div>
+            <div class="new-product-info">
+                <span class="new-product-badge">{{ new_product.category.name|upper }}</span>
+                <h3 class="new-product-title">The most popular<br>{{ new_product.name|lower }}</h3>
+                <div class="new-product-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <p class="new-product-desc">{{ new_product.description|truncatewords:25 }}</p>
+                <a href="{% url 'product_detail' new_product.slug %}" class="btn-outline-dark">More Info</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ========== FEATURED CATEGORIES ========== -->
+{% if categories %}
+<section class="featured-categories-section">
+    <div class="container">
+        <h2 class="section-title"><span class="title-underline">Featured Categories</span></h2>
+        <div class="categories-grid">
+            {% for category in categories %}
+            <a href="?category={{ category.slug }}" class="category-card-block" id="category-{{ category.slug }}">
+                <div class="category-card-icon-wrap">
+                    <span>{{ category.icon }}</span>
+                </div>
+                <p class="category-card-label">{{ category.name }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ========== TRUST BADGES ========== -->
+<section class="trust-badges-section">
+    <div class="container">
+        <div class="trust-badges-grid">
+            <div class="trust-badge-card glass-card">
+                <h3 class="trust-badge-title"><span class="text-gradient">Trusted</span></h3>
+                <p class="trust-badge-desc">Elite Hardware Kenya products are verified for quality. Our tools are used by professionals across the country and recognized for their dependability.</p>
+                <div class="trust-stars">
+                    <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+                <p class="trust-rating-text">4.9 out of 5 stars</p>
+            </div>
+            <div class="trust-badge-card glass-card">
+                <h3 class="trust-badge-title"><span class="text-gradient">Awarded</span></h3>
+                <p class="trust-badge-desc">Recognized as Kenya's top hardware retailer. Our commitment to quality has earned us multiple industry awards and the loyalty of thousands of customers.</p>
+                <div class="trust-stars">
+                    <span>🏆</span><span>🏆</span><span>🏆</span>
+                </div>
+                <p class="trust-rating-text">3x Industry Award Winner</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== PREMIER BRANDS ========== -->
+<section class="brands-section">
+    <div class="container">
+        <h2 class="section-title"><span class="title-underline">Premier Brands</span></h2>
+        <div class="brands-grid">
+            <div class="brand-item glass-card"><span>DEWALT</span></div>
+            <div class="brand-item glass-card"><span>MAKITA</span></div>
+            <div class="brand-item glass-card"><span>BOSCH</span></div>
+            <div class="brand-item glass-card"><span>STANLEY</span></div>
+            <div class="brand-item glass-card"><span>SNOWMAN</span></div>
+            <div class="brand-item glass-card"><span>INGCO</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== NEWSLETTER ========== -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter-banner glass-card">
+            <div class="newsletter-content">
+                <h2 class="newsletter-title"><span class="title-underline">Newsletter</span></h2>
+                <p class="newsletter-desc">Subscribe to get the latest deals, product updates, and exclusive discounts delivered straight to your inbox. Don't miss out!</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('.newsletter-btn').textContent='Subscribed ✓'; this.querySelector('input').value='';">
+                    <input type="email" placeholder="Your Email" required id="newsletter-email">
+                    <button type="submit" class="newsletter-btn btn-primary">→</button>
+                </form>
+            </div>
+            <div class="newsletter-links-grid">
+                <div>
+                    <h4>Products</h4>
+                    {% for category in categories|slice:":4" %}
+                    <a href="?category={{ category.slug }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="{% url 'services' %}">Services</a>
+                    <a href="{% url 'contact' %}">Contact</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Profile</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ALL PRODUCTS CATALOG ========== -->
+<div class="container products-wrapper">
+    <aside class="sidebar">
+        <div class="glass-card sidebar-inner" style="padding: 2rem;">
+            <h4 class="sidebar-title">Categories</h4>
+            <ul class="category-list">
+                <li>
+                    <a href="{% url 'products' %}" class="category-link {% if not current_category %}active{% endif %}">
+                        <span class="icon">📦</span> All Products
+                    </a>
+                </li>
+                {% for category in categories %}
+                <li>
+                    <a href="?category={{ category.slug }}" class="category-link {% if current_category == category.slug %}active{% endif %}">
+                        <span class="icon">{{ category.icon }}</span> {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+
+    <div class="products-catalog-content">
+        <div class="catalog-header">
+            <h2 class="catalog-title">Recent <span class="text-gradient">Products</span></h2>
+            <div class="catalog-filters">
+                <span class="results-count">{{ products|length }} products found</span>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card glass-card" id="product-{{ product.id }}">
+                <div class="product-card-header">
+                    {% if product.is_featured %}
+                        <span class="product-badge sale">Featured</span>
+                    {% elif product.stock < 5 %}
+                        <span class="product-badge low-stock">Low Stock</span>
+                    {% endif %}
+                    <div class="product-card-actions">
+                        <button class="action-btn wishlist" title="Add to Wishlist">❤️</button>
+                        <button class="action-btn compare" title="Compare">⚖️</button>
+                    </div>
+                </div>
+
+                <div class="product-image-wrap">
+                    <a href="{% url 'product_detail' product.slug %}">
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-img">
+                        {% else %}
+                            <div class="product-placeholder">
+                                {{ product.category.icon|default:"🛠️" }}
+                            </div>
+                        {% endif %}
+                    </a>
+                    <div class="image-overlay">
+                        <a href="{% url 'product_detail' product.slug %}" class="quick-view-btn">Quick View</a>
+                    </div>
+                </div>
+
+                <div class="product-card-info">
+                    <span class="product-cat-label">{{ product.category.name|upper }}</span>
+                    <h3 class="product-name">
+                        <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                    </h3>
+                    
+                    <div class="product-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-val">(4.9)</span>
+                    </div>
+
+                    <div class="product-price-row">
+                        <p class="price">${{ product.price }}</p>
+                        {% if product.stock > 0 %}
+                            <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn" title="Add to Cart">
+                                <span class="icon">🛒</span>
+                                <span class="text">Add</span>
+                            </a>
+                        {% else %}
+                            <button class="add-to-cart-btn out-of-stock" disabled>
+                                <span class="text">Sold Out</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-catalog text-center">
+                <div class="empty-icon">📂</div>
+                <h3>No products found.</h3>
+                <p>Try modifying your search or filters to find what you're looking for.</p>
+                <a href="{% url 'products' %}" class="btn-primary small">Reset Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
